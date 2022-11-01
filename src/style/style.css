@@ -1,0 +1,18 @@
+.form-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 100px;
+}
+
+.form-container form {
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    row-gap: 10px;
+}
+
+.form-container form div {
+    display: flex;
+    flex-direction: column;
+}
