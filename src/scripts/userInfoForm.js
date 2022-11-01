@@ -58,6 +58,7 @@ export const userInfoForm = () => {
 
             // Input
             const emailInput = createElement('input', emailElement, null, 'email');
+            emailInput.classList.add('invalid');
             emailInput.setAttribute('type', 'email');
 
         return emailElement;
@@ -76,6 +77,8 @@ export const userInfoForm = () => {
 
             // Input
             const countryInput = createElement('input', countryElement, null, 'country');
+            countryInput.classList.add('invalid');
+            countryInput.setAttribute('min', '1');
 
         return countryElement;
     }
@@ -92,6 +95,7 @@ export const userInfoForm = () => {
 
             // Input
             const zipCodeInput = createElement('input', zipCodeElement, null, 'zip-code');
+            zipCodeInput.classList.add('invalid');
 
         return zipCodeElement;
     }
@@ -108,6 +112,7 @@ export const userInfoForm = () => {
 
             // Input
             const passwordInput = createElement('input', passwordElement, null, 'password');
+            passwordInput.classList.add('invalid');
             passwordInput.setAttribute('type', 'password');
 
         return passwordElement;
@@ -125,6 +130,7 @@ export const userInfoForm = () => {
 
             // Input
             const passwordConInput = createElement('input', passwordConElement, null, 'password-confirm');
+            passwordConInput.classList.add('invalid');
             passwordConInput.setAttribute('type', 'password');
 
         return passwordConElement;
@@ -142,7 +148,65 @@ export const userInfoForm = () => {
 
     // Bind functionality (including validation) to form and child elements.
     const update = () => {
-        
+        // Get form
+        const formElement = document.querySelector('form');
+
+        // List of form inputs
+        const inputList = formElement.querySelectorAll('input');
+
+        // Get Email Input
+        const emailInput = inputList[0];
+
+        // Get Country Input
+        const countryInput = inputList[1];
+
+        // Get Zip Code Input
+        const zipCodeInput = inputList[2];
+
+        // Get Password Input
+        const passwordInput = inputList[3];
+
+        // Get Password Confirmation Input
+        const passwordConInput = inputList[4];
+
+        // Get Submit btn
+        const submitBtn = formElement.querySelector('button');
+
+        // Email Input Validity
+        emailInput.addEventListener('keydown', (event) => {
+            if (emailInput.checkValidity()) {
+                emailInput.classList.remove('invalid');
+                emailInput.classList.add('valid');
+            } 
+            else {
+                emailInput.classList.remove('valid');
+                emailInput.classList.add('invalid');
+            }
+        });
+
+        // Country Input Validity
+        countryInput.addEventListener('keydown', (event) => {
+            if (countryInput.checkValidity()) {
+                countryInput.classList.remove('invalid');
+                countryInput.classList.add('valid');
+            } 
+            else {
+                countryInput.classList.remove('valid');
+                countryInput.classList.add('invalid');
+            }
+        });
+
+        // Zip Code Input Validity
+        zipCodeInput.addEventListener('keyup', (event) => {
+            if ((/^\d+$/.test(zipCodeInput.value)) && (zipCodeInput.value.length == 5)) {
+                zipCodeInput.classList.remove('invalid');
+                zipCodeInput.classList.add('valid');
+            } 
+            else {
+                zipCodeInput.classList.remove('valid');
+                zipCodeInput.classList.add('invalid');
+            }
+        });
     }
 
     // Create html element from inputs
