@@ -1,10 +1,31 @@
 .form-container {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 0px 100px;
 }
 
+/* Error Container */
+.error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: center;
+    row-gap: 8px;
+    background-color: red;
+}
+
+.error-container span {
+    /* border: 3px red solid; */
+    padding: 4px 8px;
+    /* border-radius: 5px; */
+    /* background-color: white; */
+    color: white;
+    font-weight: bold;
+}
+
+/* Form */
 .form-container form {
     display: flex;
     flex-direction: column;

@@ -15,6 +15,7 @@
 export const userInfoForm = () => {
     const state = {
         formContainer: null,
+        errorContainer: null,
         formElement: null,
         emailElement: null,
         countryElement: null,
@@ -28,6 +29,8 @@ export const userInfoForm = () => {
     const render = () => {
         // formContainer
         state.formContainer = createElement('div', document.body, 'form-container');
+            // errorContainer : Div
+            state.errorContainer = createElement('div', state.formContainer, 'error-container');
             // Form
             state.formElement = createElement('form', state.formContainer);
                 // Input : Email
@@ -172,8 +175,11 @@ export const userInfoForm = () => {
         // Get Submit btn
         const submitBtn = formElement.querySelector('button');
 
+        // Error text Array
+        // let errorArray = [];
+
         // Email Input Validity
-        emailInput.addEventListener('keydown', (event) => {
+        emailInput.addEventListener('keydown', () => {
             if (emailInput.checkValidity()) {
                 emailInput.classList.remove('invalid');
                 emailInput.classList.add('valid');
@@ -181,11 +187,18 @@ export const userInfoForm = () => {
             else {
                 emailInput.classList.remove('valid');
                 emailInput.classList.add('invalid');
+
+                // if(emailInput.value.length ==- 0) {
+                //     errorArray.push("Enter an email");
+                // } 
+                // else {
+                //     errorArray.push("Email is invalid");
+                // }
             }
         });
 
         // Country Input Validity
-        countryInput.addEventListener('keydown', (event) => {
+        countryInput.addEventListener('keydown', () => {
             if (countryInput.checkValidity()) {
                 countryInput.classList.remove('invalid');
                 countryInput.classList.add('valid');
@@ -193,18 +206,27 @@ export const userInfoForm = () => {
             else {
                 countryInput.classList.remove('valid');
                 countryInput.classList.add('invalid');
+                // errorArray.push("Enter a country name");
             }
         });
 
         // Zip Code Input Validity
-        zipCodeInput.addEventListener('keyup', (event) => {
-            if ((/^\d+$/.test(zipCodeInput.value)) && (zipCodeInput.value.length == 5)) {
-                zipCodeInput.classList.remove('invalid');
-                zipCodeInput.classList.add('valid');
-            } 
+        zipCodeInput.addEventListener('keyup', () => {
+            if (/^\d+$/.test(zipCodeInput.value)) {
+                if (zipCodeInput.value.length == 5) {
+                    zipCodeInput.classList.remove('invalid');
+                    zipCodeInput.classList.add('valid');
+                } 
+                else {
+                    zipCodeInput.classList.remove('valid');
+                    zipCodeInput.classList.add('invalid');
+                    // errorArray.push("Zip code must to be 5 digits");
+                }
+            }  
             else {
                 zipCodeInput.classList.remove('valid');
                 zipCodeInput.classList.add('invalid');
+                // errorArray.push("Enter a zip code with only numbers");
             }
         });
 
@@ -212,8 +234,8 @@ export const userInfoForm = () => {
         passwordInput.addEventListener('keyup', () => {
             // At least 4 words
             let passWordArry = passwordInput.value.trim().split(" ");
-            console.log(passWordArry);
-            console.log(passWordArry.length >= 4);
+            // console.log(passWordArry);
+            // console.log(passWordArry.length >= 4);
             if(passWordArry.length >= 4) {
                 passwordInput.classList.remove('invalid');
                 passwordInput.classList.add('valid');
@@ -221,6 +243,7 @@ export const userInfoForm = () => {
             else {
                 passwordInput.classList.remove('valid');
                 passwordInput.classList.add('invalid');
+                // errorArray.push("Enter at least a 4 word passphrase");
             }
         });
 
@@ -233,9 +256,40 @@ export const userInfoForm = () => {
             else {
                 passwordConInput.classList.remove('valid');
                 passwordConInput.classList.add('invalid');
+                // errorArray.push("Passphrase does not match passphrase confirmation");
             }
         });
-    }
+
+        // Submit Button
+        submitBtn.addEventListener('click', (event) => {
+            let formIsValid = emailInput.classList.contains('valid')
+                && countryInput.classList.contains('valid')
+                && zipCodeInput.classList.contains('valid')
+                && passwordInput.classList.contains('valid')
+                && passwordConInput.classList.contains('valid');
+            if (!formIsValid) {
+                event.preventDefault();
+                // console.log(errorArray);
+                showValidityErrors([emailInput, countryInput, zipCodeInput, passwordInput, passwordConInput]);
+            }
+        });
+    };
+
+    const showValidityErrors = (inputArr) => {
+        while(state.errorContainer.firstElementChild) {
+            state.errorContainer.removeChild(state.errorContainer.firstElementChild);
+        }
+
+        for(let i = 0; i < inputArr.length; i++) {
+            if (inputArr[i].classList.contains('invalid')) {
+                // Create new span, parent errorContainer
+                let inputId = inputArr[i].id;
+                const errSpan = createElement('span', state.errorContainer, ['error', `${inputArr[i].id}`]);
+                errSpan.textContent = `${inputId} is invalid`;
+            }
+        }
+
+    };
 
     // Create html element from inputs
     // In > Out: String, Object, String, String
