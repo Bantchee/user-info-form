@@ -207,6 +207,34 @@ export const userInfoForm = () => {
                 zipCodeInput.classList.add('invalid');
             }
         });
+
+        // Password Input Validity
+        passwordInput.addEventListener('keyup', () => {
+            // At least 4 words
+            let passWordArry = passwordInput.value.trim().split(" ");
+            console.log(passWordArry);
+            console.log(passWordArry.length >= 4);
+            if(passWordArry.length >= 4) {
+                passwordInput.classList.remove('invalid');
+                passwordInput.classList.add('valid');
+            } 
+            else {
+                passwordInput.classList.remove('valid');
+                passwordInput.classList.add('invalid');
+            }
+        });
+
+        // Password Confirmation
+        passwordConInput.addEventListener('keyup', () => {
+            if(passwordConInput.value === passwordInput.value) {
+                passwordConInput.classList.remove('invalid');
+                passwordConInput.classList.add('valid');
+            } 
+            else {
+                passwordConInput.classList.remove('valid');
+                passwordConInput.classList.add('invalid');
+            }
+        });
     }
 
     // Create html element from inputs
